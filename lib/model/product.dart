@@ -155,6 +155,8 @@
 //   }
 // }
 
+import 'package:seafoods/model/cart.dart';
+
 class Product {
   int? productId;
   int? categoryId;
@@ -176,6 +178,55 @@ class Product {
   List<CommentList>? commentList;
   String? statusOrder;
   int? flashSaleStatus;
+
+  Product(
+      {this.productId,
+      this.categoryId,
+      this.categoryName,
+      this.productName,
+      this.productDesc,
+      this.productPrice,
+      this.productImage,
+      this.productUnit,
+      this.productUnitSold,
+      this.productStatus,
+      this.productViewer,
+      this.productContent,
+      this.productQuantity,
+      this.productDeliveryWay,
+      this.productOrigin,
+      this.productDeliciousFoods,
+      this.commentList,
+      this.statusOrder,
+      this.flashSaleStatus});
+
+  CartModel toCart() {
+    return CartModel(
+      customer_id: null, // Thay bằng giá trị tương ứng
+      quantity: 1, // Giá trị mặc định cho số lượng
+      product_price_total: productPrice ??
+          0, // Giá trị tổng giá sản phẩm (mặc định là giá sản phẩm)
+      productId: productId,
+      categoryId: categoryId,
+      categoryName: categoryName,
+      productName: productName,
+      productDesc: productDesc,
+      productPrice: productPrice,
+      productImage: productImage,
+      productUnit: productUnit,
+      productUnitSold: productUnitSold,
+      productStatus: productStatus,
+      productViewer: productViewer,
+      productContent: productContent,
+      productQuantity: productQuantity,
+      productDeliveryWay: productDeliveryWay,
+      productOrigin: productOrigin,
+      productDeliciousFoods: productDeliciousFoods,
+      commentList: commentList,
+      statusOrder: statusOrder,
+      flashSaleStatus: flashSaleStatus,
+    );
+  }
 
   Product.fromJson(Map<String, dynamic> json) {
     productId = json['product_id'];
@@ -252,6 +303,22 @@ class CommentList {
     commentStatus = json['comment_status'];
     commentReply = json['comment_reply'];
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['comment_id'] = this.commentId;
+    data['order_code'] = this.orderCode;
+    data['comment_title'] = this.commentTitle;
+    data['comment_content'] = this.commentContent;
+    data['comment_rate_star'] = this.commentRateStar;
+    data['comment_customer_id'] = this.commentCustomerId;
+    data['comment_customer_name'] = this.commentCustomerName;
+    data['comment_product_id'] = this.commentProductId;
+    data['comment_date'] = this.commentDate;
+    data['comment_status'] = this.commentStatus;
+    data['comment_reply'] = this.commentReply;
+    return data;
+  }
 }
 
 class GalleryProduct {
@@ -278,5 +345,16 @@ class GalleryProduct {
     galleryProductImage = json["gallery_product_image"];
     galleryProductContent = json["gallery_product_content"];
     galleryProductIamge = json["gallery_product_iamge"];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['gallery_product_id'] = this.galleryProductId;
+    data['product_id'] = this.productId;
+    data['gallery_product_name'] = this.galleryProductName;
+    data['gallery_product_image'] = this.galleryProductImage;
+    data['gallery_product_content'] = this.galleryProductContent;
+    data['gallery_product_iamge'] = this.galleryProductIamge;
+    return data;
   }
 }

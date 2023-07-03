@@ -23,19 +23,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("haha1");
-    // loadProduct();
-    // return App
-    // print("haha");
-    // return Container(
-    //   margin: EdgeInsets.only(top: 120),
-    //   child: Expanded(child: SingleChildScrollView(child: FoodPageBody())),
-    // );
+    // print("haha1");
+
     return AppBarContainerWidget(
       implementBack: false,
       implementCart: true,
       scaffoldKey: _scaffoldKey,
-      titleString: "Seafood",
+      titleString: "Seafood1",
       child: Column(
         children: [
           Expanded(child: SingleChildScrollView(child: FoodPageBody())),

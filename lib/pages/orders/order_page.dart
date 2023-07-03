@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:seafoods/Constant/colors.dart';
 import 'package:seafoods/pages/container/app_bar_widget.dart';
+import 'package:seafoods/pages/orders/cancel/cancel_page.dart';
 import 'package:seafoods/pages/orders/confirm/confirm_page.dart';
+import 'package:seafoods/pages/orders/deliveried/deliveried_page.dart';
+import 'package:seafoods/pages/orders/delivering/delivering_page.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -60,9 +63,9 @@ class _OrdersPageState extends State<OrdersPage>
           controller: _tabController,
           children: [
             new ConfirmPage(),
-            new ConfirmPage(),
-            new ConfirmPage(),
-            new ConfirmPage(),
+            new DeliveringPage(),
+            new DeliveriedPage(),
+            new CancelPage(),
           ],
         ),
       ),

@@ -1,7 +1,13 @@
+import 'package:cherry_toast/cherry_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:seafoods/Constant/colors.dart';
 import 'package:seafoods/Constant/style_text.dart';
+import 'package:seafoods/localStorage/user_save.dart';
+import 'package:seafoods/model/customer.dart';
 import 'package:seafoods/pages/container/app_bar_widget.dart';
+import 'package:seafoods/pages/loginandsignup/login/login.dart';
+import 'package:seafoods/pages/user/user_page_presenter.dart';
+import 'package:seafoods/pages/user/user_page_view_contact.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -10,8 +16,19 @@ class UserPage extends StatefulWidget {
   State<UserPage> createState() => _UserPageState();
 }
 
-class _UserPageState extends State<UserPage> {
+class _UserPageState extends State<UserPage> implements UserPageViewContact {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late UserPagePresenter userPagePresenter;
+  late Customer customer;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    customer = CustomerDB.getCustomer()!;
+    userPagePresenter = UserPagePresenter(this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBarContainerWidget(
@@ -39,16 +56,17 @@ class _UserPageState extends State<UserPage> {
             height: 30,
           ),
           ItemProfileWidget(
-              Icons.person, AppColor.mainColor, "Nguyễn Văn Vĩnh Nguyên"),
+              Icons.person, AppColor.mainColor, customer.customer_name!),
           SizedBox(
             height: 20,
           ),
-          ItemProfileWidget(Icons.phone, AppColor.yellowColor, "0839519415"),
+          ItemProfileWidget(Icons.phone, AppColor.yellowColor,
+              "0" + customer.customer_phone.toString()),
           SizedBox(
             height: 20,
           ),
           ItemProfileWidget(
-              Icons.mail, AppColor.iconColor2, "nguyenvy1470@gmail.com"),
+              Icons.mail, AppColor.iconColor2, customer.customer_email!),
           SizedBox(
             height: 20,
           ),
@@ -61,7 +79,16 @@ class _UserPageState extends State<UserPage> {
           SizedBox(
             height: 20,
           ),
-          ItemProfileWidget(Icons.logout, Colors.redAccent, "Log out"),
+          GestureDetector(
+              onTap: () {
+                print("hihi");
+                userPagePresenter.Logout();
+              },
+              child: ItemProfileWidget(
+                Icons.logout,
+                Colors.redAccent,
+                "Log out",
+              )),
         ],
       ),
     );
@@ -130,42 +157,40 @@ class _UserPageState extends State<UserPage> {
                 color: Colors.white10, offset: Offset(3, 1), blurRadius: 2)
           ]),
       margin: EdgeInsets.symmetric(horizontal: 20),
-      child: InkWell(
-        onTap: () {
-          print("haha");
-        },
-        // radius: 10,
-        focusColor: AppColor.mainColor,
-        highlightColor: AppColor.mainColor,
-        borderRadius: BorderRadius.circular(10),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-          child: Row(children: [
-            Container(
-              alignment: Alignment.center,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  color: iconColor,
-                ),
-                child: Icon(
-                  iconData,
-                  size: 20,
-                  color: Colors.white,
-                ),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        child: Row(children: [
+          Container(
+            alignment: Alignment.center,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                color: iconColor,
+              ),
+              child: Icon(
+                iconData,
+                size: 20,
+                color: Colors.white,
               ),
             ),
-            SizedBox(
-              width: 20,
-            ),
-            Text(
-              title,
-              style: AppText.textBold,
-            )
-          ]),
-        ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Text(
+            title,
+            style: AppText.textBold,
+          )
+        ]),
       ),
     );
+  }
+
+  @override
+  void logoutSuccess() {
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+    CherryToast.success(title: Text("Logout Success")).show(context);
   }
 }

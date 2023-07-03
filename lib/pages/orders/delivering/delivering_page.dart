@@ -28,14 +28,14 @@ import 'package:seafoods/widgets/item_order_widget.dart';
 //   }
 // }
 
-class ConfirmPage extends StatefulWidget {
-  const ConfirmPage({super.key});
+class DeliveringPage extends StatefulWidget {
+  const DeliveringPage({super.key});
 
   @override
-  State<ConfirmPage> createState() => _ConfirmPageState();
+  State<DeliveringPage> createState() => _DeliveringPageState();
 }
 
-class _ConfirmPageState extends State<ConfirmPage> {
+class _DeliveringPageState extends State<DeliveringPage> {
   bool _isLoading = false;
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
       _isLoading = true;
     });
     Provider.of<OrderProvider>(context, listen: false)
-        .fetchOrders(CustomerDB.getCustomer()!.customer_id, 0)
+        .fetchOrders(CustomerDB.getCustomer()!.customer_id, 1)
         .then((value) {
       setState(() {
         _isLoading = false;
@@ -69,8 +69,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
             order: orderList[index],
             onTap: () {
               print("haha1");
-              _orderList.orderCancel(orderList[index].orderCode!);
-              CherryToast.success(title: Text("Đã hủy đơn hàng thành công"))
+              _orderList.orderReceive(orderList[index].orderCode!);
+              CherryToast.success(
+                      title: Text("Đã xác nhận đơn hàng giao thành công"))
                   .show(context);
             },
           );

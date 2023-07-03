@@ -30,7 +30,8 @@ void main() async {
   box.write('categories', categories); // Lưu trữ danh sách categories
 
   // Truy xuất danh sách categories từ GetStorage
-  final storedCategories = box.read<List<CategoryModel>>('categories');
+  final storedCategories = box.read<List<CategoryModel>>('categories23');
+  print(storedCategories.runtimeType);
   if (storedCategories != null) {
     // In ra danh sách categories đã lưu trữ
     for (var category in storedCategories) {
@@ -40,19 +41,19 @@ void main() async {
     print('Không tìm thấy danh sách categories');
   }
 
-  List<CategoryModel> categoryList = box.read('categoryList');
+  // final storedCategories = box.read<List<CategoryModel>>('categories23');
 
-  if (categoryList != null) {
-    final categoryToUpdate = categoryList.firstWhere(
-      (category) => category.categoryId == 1,
-      orElse: () => null!,
-    );
-    categoryList.remove(categoryToUpdate);
-    if (categoryToUpdate != null) {
-      categoryToUpdate.categoryStatus = 10;
-      box.write('categoryList', categoryList);
-    }
-  }
+  // if (categoryList != null) {
+  //   final categoryToUpdate = categoryList.firstWhere(
+  //     (category) => category.categoryId == 1,
+  //     orElse: () => null!,
+  //   );
+  //   categoryList.remove(categoryToUpdate);
+  //   if (categoryToUpdate != null) {
+  //     categoryToUpdate.categoryStatus = 10;
+  //     box.write('categoryList', categoryList);
+  //   }
+  // }
 }
 
 // void main() async {

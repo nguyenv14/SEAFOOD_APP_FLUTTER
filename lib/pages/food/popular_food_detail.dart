@@ -1,7 +1,15 @@
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:seafoods/Constant/colors.dart';
 import 'package:seafoods/Constant/dismesions.dart';
 import 'package:seafoods/Constant/style_text.dart';
+import 'package:seafoods/controller/cart_provider.dart';
+import 'package:seafoods/localStorage/cart_db.dart';
+import 'package:seafoods/localStorage/user_save.dart';
+import 'package:seafoods/model/cart.dart';
 import 'package:seafoods/model/product.dart';
 import 'package:seafoods/widgets/app_column.dart';
 import 'package:seafoods/widgets/app_icon.dart';
@@ -49,6 +57,9 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context,
+        listen: false); // Khai báo biến cartProvider
+    // final cartProvider = Provider.of<CartProvider>(context, listen: false);
     return Scaffold(
       appBar: null,
       body: CustomScrollView(
@@ -202,6 +213,35 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
                     setState(() {
                       isFavorite = !isFavorite;
                     });
+                    CherryToast.success(
+                      title: isFavorite
+                          ? Text(
+                              "Đã thêm vào yêu thích!",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          : Text("Đã xóa khỏi yêu thích!",
+                              style: TextStyle(color: Colors.white)),
+                      displayCloseButton: false,
+                      backgroundColor: AppColor.mainColor,
+                      toastPosition: Position.values[0],
+                      iconWidget: Icon(
+                        Icons.favorite,
+                        color: isFavorite ? Colors.redAccent : Colors.black,
+                      ),
+                    ).show(context);
+                    // BotToast.showSimpleNotification(
+                    //   title: "title",
+                    // );
+                    // StyledToast()
+                    // showToast(
+                    //   'This is normal',
+                    //   context: context,
+                    //   axis: Axis.horizontal,
+                    //   alignment: Alignment.center,
+                    //   position: StyledToastPosition.bottom,
+                    //   toastHorizontalMargin: 20,
+                    //   fullWidth: true,
+                    // );
                     // incrementProductCount();
                   },
                   child: Container(
@@ -346,6 +386,35 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
                                       height: 20,
                                     ),
                                     GestureDetector(
+                                      onTap: () {
+                                        CartModel cartModel =
+                                            widget.product.toCart();
+                                        cartModel.customer_id =
+                                            CustomerDB.getCustomer()!
+                                                .customer_id;
+                                        cartModel.quantity = countProduct;
+                                        cartModel.product_price_total =
+                                            widget.product.productPrice! *
+                                                countProduct;
+                                        print(GetStorage()
+                                            .read(Dimesions.CART)
+                                            .toString());
+                                        // int result = cartProvider
+                                        //     .addProductToCart(cartModel);
+
+                                        // Navigator.of(context).pop();
+                                        // if (result == 1) {
+                                        //   CherryToast.success(
+                                        //           title: Text(
+                                        //               "Đã thêm sản phẩm ${widget.product.productName} vào giỏ hàng"))
+                                        //       .show(context);
+                                        // } else {
+                                        //   CherryToast.error(
+                                        //           title: Text(
+                                        //               "${widget.product.productName} đã tồn tại trong giỏ hàng"))
+                                        //       .show(context);
+                                        // }
+                                      },
                                       child: Container(
                                           // alignment: Alignment.center,
                                           margin: EdgeInsets.symmetric(
@@ -385,7 +454,6 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
                                   ],
                                 ),
                               );
-                              ;
                             }));
                   },
                   child: Container(

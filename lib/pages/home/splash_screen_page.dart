@@ -3,8 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:seafoods/helpers/asset_helper.dart';
 import 'package:seafoods/helpers/image_helper.dart';
+import 'package:seafoods/localStorage/user_save.dart';
+import 'package:seafoods/model/customer.dart';
 import 'package:seafoods/pages/home/main_page.dart';
 import 'package:seafoods/pages/home/welcome_pages.dart';
+import 'package:seafoods/pages/loginandsignup/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,13 +25,28 @@ class _SplashScreenState extends State<SplashScreen> {
     print(isFirst);
     if (isFirst == true) {
       await Future.delayed(const Duration(seconds: 2));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MainPage()));
+      Customer? customer = CustomerDB.getNameCustomer();
+      if (customer != null) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => MainPage()),
+          (route) => true,
+        );
+      } else {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+          (route) => true,
+        );
+      }
     } else {
       await sharedPreferences.setBool("FirstApp", true);
       await Future.delayed(const Duration(seconds: 2));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => WelcomePage()),
+        (route) => false,
+      );
     }
   }
 

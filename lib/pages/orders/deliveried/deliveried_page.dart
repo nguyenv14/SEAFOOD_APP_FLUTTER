@@ -1,7 +1,7 @@
-import 'package:cherry_toast/cherry_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seafoods/localStorage/user_save.dart';
+import 'package:seafoods/pages/evaluate/evaluate_page.dart';
 import 'package:seafoods/pages/orders/order_provider.dart';
 import 'package:seafoods/widgets/item_order_widget.dart';
 
@@ -28,14 +28,14 @@ import 'package:seafoods/widgets/item_order_widget.dart';
 //   }
 // }
 
-class ConfirmPage extends StatefulWidget {
-  const ConfirmPage({super.key});
+class DeliveriedPage extends StatefulWidget {
+  const DeliveriedPage({super.key});
 
   @override
-  State<ConfirmPage> createState() => _ConfirmPageState();
+  State<DeliveriedPage> createState() => _DeliveriedPageState();
 }
 
-class _ConfirmPageState extends State<ConfirmPage> {
+class _DeliveriedPageState extends State<DeliveriedPage> {
   bool _isLoading = false;
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
       _isLoading = true;
     });
     Provider.of<OrderProvider>(context, listen: false)
-        .fetchOrders(CustomerDB.getCustomer()!.customer_id, 0)
+        .fetchOrders(CustomerDB.getCustomer()!.customer_id, 4)
         .then((value) {
       setState(() {
         _isLoading = false;
@@ -68,10 +68,14 @@ class _ConfirmPageState extends State<ConfirmPage> {
           return new ItemOrderWidget(
             order: orderList[index],
             onTap: () {
-              print("haha1");
-              _orderList.orderCancel(orderList[index].orderCode!);
-              CherryToast.success(title: Text("Đã hủy đơn hàng thành công"))
-                  .show(context);
+              // print("Giao hàng");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EvaluatePage(
+                            order: orderList[index],
+                          ))).then((value) => _orderList.fetchOrders(
+                  CustomerDB.getCustomer()!.customer_id, 4));
             },
           );
         },

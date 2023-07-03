@@ -387,10 +387,13 @@ class _FoodPageBodyState extends State<FoodPageBody>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            product.productName!,
-                            style: AppText.textBold.copyWith(fontSize: 18),
-                            overflow: TextOverflow.ellipsis,
+                          Container(
+                            width: 150,
+                            child: Text(
+                              product.productName!,
+                              style: AppText.textBold.copyWith(fontSize: 18),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           Text(
                             Dimesions.formatNumber(product.productPrice!) + "đ",

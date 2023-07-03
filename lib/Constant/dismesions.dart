@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenfit/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -24,12 +23,16 @@ class Dimesions {
     return plainText;
   }
 
-  static void flutterToast(String title, Color color,
-      {ToastGravity toastGravity = ToastGravity.BOTTOM}) {
-    Fluttertoast.showToast(
-        msg: title,
-        backgroundColor: color,
-        gravity: toastGravity,
-        toastLength: Toast.LENGTH_SHORT);
-  }
+  static String CUSTOMER = "customer";
+
+  static String CART = "cart";
+
+  // static void flutterToast(String title, Color color,
+  //     {ToastGravity toastGravity = ToastGravity.BOTTOM}) {
+  //   Fluttertoast.showToast(
+  //       msg: title,
+  //       backgroundColor: color,
+  //       gravity: toastGravity,
+  //       toastLength: Toast.LENGTH_SHORT);
+  // }
 }

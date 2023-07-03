@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:seafoods/Constant/colors.dart';
-import 'package:seafoods/Constant/dismesions.dart';
 import 'package:seafoods/Constant/style_text.dart';
 import 'package:seafoods/helpers/image_helper.dart';
 import 'package:seafoods/model/category.dart';
@@ -47,6 +45,8 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
   List<CategoryModel> categoryList = [];
   bool isCategoryList = false;
 
+  bool isDrawerOpen = true;
+
   void initState() {
     super.initState();
     appbarPresenter = new AppbarPresenter(this);
@@ -73,37 +73,46 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
               ? 150
               : widget.isBackgroundTransperent!
                   ? 100
-                  : 100,
+                  : 120,
           child: AppBar(
             backgroundColor: Colors.white,
             centerTitle: true,
             bottom: widget.tabBar,
             automaticallyImplyLeading: false,
-            elevation: 0,
+            elevation: 0.5,
             shadowColor: Colors.white,
-            scrolledUnderElevation: 0,
+            scrolledUnderElevation: 0.5,
             title: Container(
               padding: const EdgeInsets.all(8.0),
               child: widget.title ??
                   Row(
                     children: [
                       if (widget.implementBack)
-                        Container(
-                          padding: EdgeInsets.all(7),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: AppColor.mainColor,
-                          ),
-                          child: Icon(
-                            FontAwesomeIcons.arrowLeft,
-                            color: Colors.white,
-                            size: 20,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: AppColor.mainColor,
+                            ),
+                            child: Icon(
+                              FontAwesomeIcons.arrowLeft,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                           ),
                         ),
                       if (!widget.implementBack)
                         GestureDetector(
                           onTap: () {
-                            print("haha1");
+                            // print("haha1");
+                            // setState(() {
+                            //   isDrawerOpen = !isDrawerOpen;
+                            // });
                             widget.scaffoldKey!.currentState?.openDrawer();
                           },
                           child: Container(
@@ -154,7 +163,8 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
         ),
         Container(margin: EdgeInsets.only(top: 120), child: widget.child)
       ]),
-      bottomNavigationBar: widget.bottomNavigation,
+      bottomNavigationBar:
+          Offstage(offstage: isDrawerOpen, child: widget.bottomNavigation),
       drawer: Drawer(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -285,7 +295,7 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
   @override
   void getCategoryListError(Object? e) {
     print("category: " + e.toString());
-    Dimesions.flutterToast(e.toString(), Colors.redAccent);
+    // Dimesions.flutterToast(e.toString(), Colors.redAccent);
     setState(() {
       isCategoryList = false;
     });
