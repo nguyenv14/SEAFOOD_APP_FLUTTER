@@ -68,11 +68,40 @@ class _DeliveringPageState extends State<DeliveringPage> {
           return new ItemOrderWidget(
             order: orderList[index],
             onTap: () {
-              print("haha1");
-              _orderList.orderReceive(orderList[index].orderCode!);
-              CherryToast.success(
-                      title: Text("Đã xác nhận đơn hàng giao thành công"))
-                  .show(context);
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      title: Text("Thông báo"),
+                      content: Text(
+                          "Bạn đã nhận hàng thành công? Lưu ý bạn sẽ không hoàn đơn hàng lại được!"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("No",
+                                style: TextStyle(color: Colors.black38))),
+                        TextButton(
+                            onPressed: () {
+                              _orderList
+                                  .orderReceive(orderList[index].orderCode!);
+                              Navigator.of(context).pop();
+                              CherryToast.success(
+                                      title: Text(
+                                          "Đã xác nhận đơn hàng giao thành công"))
+                                  .show(context);
+                            },
+                            child: Text(
+                              "Yes",
+                              style: TextStyle(color: Colors.redAccent),
+                            ))
+                      ],
+                    );
+                  });
+              // print("haha1");
             },
           );
         },

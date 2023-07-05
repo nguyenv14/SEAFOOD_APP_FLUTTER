@@ -31,23 +31,10 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
   void initState() {
     super.initState();
     setState(() {
-      // countProduct = 1;
-      // _countProduct = 1;
       galleryList = widget.product.galleryList!;
     });
+    // Provider.of<CartProvider>(context, listen: false).fetchCart();
   }
-
-  // handleCountProduct(int status) {
-  //   if (status == 1) {
-  //     setState(() {
-  //       _countProduct++;
-  //     });
-  //   } else if (status == 0 && _countProduct > 1) {
-  //     setState(() {
-  //       _countProduct--;
-  //     });
-  //   }
-  // }
 
   void incrementProductCount() {
     setState(() {
@@ -57,9 +44,8 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context,
-        listen: false); // Khai báo biến cartProvider
-    // final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final countCart = cartProvider.count; // Khai báo biến cartProvider
     return Scaffold(
       appBar: null,
       body: CustomScrollView(
@@ -79,7 +65,26 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
                     iconData: Icons.arrow_back,
                   ),
                 ),
-                const AppIcon(iconData: Icons.shopping_cart_outlined),
+                Stack(children: [
+                  const AppIcon(iconData: Icons.shopping_cart_outlined),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30, top: 25),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColor.mainColor,
+                      ),
+                      child: Consumer<CartProvider>(
+                        builder: (context, cartProvider, _) {
+                          return Text(cartProvider.count.toString(),
+                              style: AppText.text
+                                  .copyWith(color: Colors.white, fontSize: 12));
+                        },
+                      ),
+                    ),
+                  )
+                ]),
               ],
             ),
             backgroundColor: AppColor.mainColor,
@@ -396,24 +401,24 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
                                         cartModel.product_price_total =
                                             widget.product.productPrice! *
                                                 countProduct;
-                                        print(GetStorage()
-                                            .read(Dimesions.CART)
-                                            .toString());
-                                        // int result = cartProvider
-                                        //     .addProductToCart(cartModel);
-
-                                        // Navigator.of(context).pop();
-                                        // if (result == 1) {
-                                        //   CherryToast.success(
-                                        //           title: Text(
-                                        //               "Đã thêm sản phẩm ${widget.product.productName} vào giỏ hàng"))
-                                        //       .show(context);
-                                        // } else {
-                                        //   CherryToast.error(
-                                        //           title: Text(
-                                        //               "${widget.product.productName} đã tồn tại trong giỏ hàng"))
-                                        //       .show(context);
-                                        // }
+                                        // print(GetStorage()
+                                        //     .read(Dimesions.CART)
+                                        //     .toString());
+                                        int result = cartProvider
+                                            .addProductToCart(cartModel);
+                                        // cartProvider.countCarrt();
+                                        Navigator.of(context).pop();
+                                        if (result == 1) {
+                                          CherryToast.success(
+                                                  title: Text(
+                                                      "Đã thêm sản phẩm ${widget.product.productName} vào giỏ hàng"))
+                                              .show(context);
+                                        } else {
+                                          CherryToast.error(
+                                                  title: Text(
+                                                      "${widget.product.productName} đã tồn tại trong giỏ hàng"))
+                                              .show(context);
+                                        }
                                       },
                                       child: Container(
                                           // alignment: Alignment.center,

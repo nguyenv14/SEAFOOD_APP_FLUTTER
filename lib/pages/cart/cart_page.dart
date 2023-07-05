@@ -207,6 +207,7 @@ class CartPage extends StatelessWidget {
     final _scrollController = ScrollController();
     final cartProvider = Provider.of<CartProvider>(context);
     final cartLists = cartProvider.cartList;
+    // print("haha");
     return Scaffold(
       // backgroundColor: Colors.black12.withOpacity(0.05),
       appBar: AppBar(
@@ -214,6 +215,18 @@ class CartPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Row(
           children: [
+            Container(
+              padding: EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: AppColor.mainColor,
+              ),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
             Expanded(
               child: Center(
                 child: Text(
@@ -400,6 +413,52 @@ class CartPage extends StatelessWidget {
           ;
         },
       )),
+      extendBody: true,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: AppColor.mainColor,
+        ),
+        margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+                color: AppColor.signColor,
+                borderRadius: BorderRadius.circular(30)),
+            child: Text(
+              "Price: " +
+                  Dimesions.formatNumber(cartProvider.total_price) +
+                  "đ",
+              style:
+                  AppText.textBold.copyWith(color: Colors.white, fontSize: 16),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                color: AppColor.iconColor2,
+                borderRadius: BorderRadius.circular(30)),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.shopping_cart_checkout,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Check out",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                )
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 

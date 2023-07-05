@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:seafoods/api/api_link_util.dart';
 import 'package:seafoods/model/model.dart';
 
 class ApiClient {
@@ -27,19 +26,20 @@ class ApiClient {
       Model model = Model.fromJson(response);
       return model;
     } catch (e) {
+      print("lỗiiiiii");
       print(e);
     }
     return null!;
   }
 
-  static Future<Models> getModels(Uri uri, Map<Object?, Object> body) async {
+  static Future<Model> getModels(Uri uri, Map<Object?, Object> body) async {
     try {
       // var body = {
       //   "product_id" : 1,
       // };
       var res = await http.post(uri, body: body);
       var response = jsonDecode(res.body);
-      Models model = Models.fromJson(response);
+      Model model = Model.fromJson(response);
       return model;
     } catch (e) {
       print(e);

@@ -8,10 +8,15 @@ class CartProvider extends ChangeNotifier {
   final box = GetStorage();
 
   List<CartModel> _cartList = [];
+  int _count = 0;
+  double _total_price = 0;
   List<CartModel> get cartList => _cartList;
+  int get count => _count;
+  double get total_price => _total_price;
   CartProvider() {
-    // Khởi tạo danh sách sản phẩm từ Get Storage khi Provider được tạo
-    _cartList = CartModel.getListCart(box.read(Dimesions.CART));
+    _cartList = CartModel.getListCart(box.read(Dimesions.CART) ?? []);
+    _count = _cartList.length;
+    _total_price = calculateTotalQuantity(_cartList);
   }
 
   int addProductToCart(CartModel cartModel) {
@@ -21,18 +26,14 @@ class CartProvider extends ChangeNotifier {
               element.productId == cartModel.productId &&
               element.customer_id == CustomerDB.getCustomer()!.customer_id,
           orElse: () => CartModel());
-      // print(cartFind.productName);
       if (cartFind.productName != null) {
         return 0;
       }
     }
-    // print(cartModel.toJson());
     _cartList.add(cartModel);
-    // List<dynamic> dynamicNew = CartModel.getListDynamic(cartList);
-    // box.write(Dimesions.CART, dynamicNew);
-    // print(box.read(Dimesions.CART));
-    // print(_cartList[1].toJson());
     box.write(Dimesions.CART, CartModel.getListDynamic(_cartList));
+    _count = _cartList.length;
+    _total_price = calculateTotalQuantity(_cartList);
     notifyListeners();
     return 1;
   }
@@ -51,69 +52,27 @@ class CartProvider extends ChangeNotifier {
     _cartList[index].product_price_total =
         _cartList[index].productPrice! * quantity;
     box.write(Dimesions.CART, CartModel.getListDynamic(_cartList));
+    _total_price = calculateTotalQuantity(_cartList);
     notifyListeners();
     return 1;
   }
 
   void removeProductToCart(CartModel cartModel) {
-    // _cartList.remove(cartModel);
-    // List<dynamic> source = box.read(Dimesions.CART);
-    // List<CartModel> cartList = CartModel.getListCart(source);
-    // cartList.remove(cartModel);
     _cartList.removeWhere((item) =>
         item.productId == cartModel.productId &&
         item.customer_id == cartModel.customer_id);
-    // print("object1");
     List<dynamic> newDynamic = CartModel.getListDynamic(_cartList);
     box.write(Dimesions.CART, newDynamic);
-    // box.write(Dimesions.CART, _cartList);
+    _count = _cartList.length;
+    _total_price = calculateTotalQuantity(_cartList);
     notifyListeners();
   }
 
-  // final box = GetStorage();
-  //   final storedCategories = box.read<List<CartModel>>(Dimesions.CART);
-  //   if (storedCategories != null) {
-  //     storedCategories.add(cart);
-  //   } else {
-  //     List<CartModel> cartList = [cart];
-  //     box.write(Dimesions.CART, cartList);
-  //   }
-  // }
-
-  // static List<CartModel>? getCart() {
-  //   final box = GetStorage();
-  //   final storedCategories = box.read<List<CartModel>>(Dimesions.CART);
-  //   if (storedCategories != null) {
-  //     return storedCategories;
-  //   }
-  // }
-
-  // static void updateCart(int product_id, int customer_id, int quantity) {
-  //   final box = GetStorage();
-  //   final storedCategories = box.read<List<CartModel>>(Dimesions.CART);
-  //   if (storedCategories != null) {
-  //     int index = storedCategories.indexWhere((element) =>
-  //         element.customer_id == customer_id &&
-  //         element.productId == product_id);
-  //     // cartModel.
-  //     storedCategories[index].quantity = quantity;
-  //     storedCategories[index].product_price_total =
-  //         storedCategories[index].productPrice! * quantity;
-  //     box.write(Dimesions.CART, storedCategories);
-  //   }
-  // }
-
-  // static double? getTotalPriceCart() {
-  //   final box = GetStorage();
-  //   final storedCategories = box.read<List<CartModel>>(Dimesions.CART);
-  //   if (storedCategories != null) {
-  //     double price = 0;
-  //     for (CartModel cart in storedCategories) {
-  //       price = price + cart.product_price_total!;
-  //     }
-  //     return price;
-  //   } else {
-  //     return 0;
-  //   }
-  // }
+  double calculateTotalQuantity(List<CartModel> cartList) {
+    double totalPrice = 0;
+    for (var cart in cartList) {
+      totalPrice += cart.product_price_total!;
+    }
+    return totalPrice;
+  }
 }

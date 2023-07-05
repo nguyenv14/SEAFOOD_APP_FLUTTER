@@ -60,44 +60,6 @@ class _FoodPageBodyState extends State<FoodPageBody>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // FutureBuilder(
-        //   future: homePagePresenter!.loadSliderList(),
-        //   builder: (context, snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return Container(
-        //         alignment: Alignment.center,
-        //         child: CircularProgressIndicator(color: AppColor.mainColor),
-        //       );
-        //     } else {
-        //       return Container(
-        //           height: 140,
-        //           margin: EdgeInsets.only(bottom: 30, left: 10, right: 10),
-        //           child: CarouselSlider(
-        //             options: CarouselOptions(
-        //                 height: 300.0,
-        //                 autoPlay: true,
-        //                 autoPlayAnimationDuration: Duration(milliseconds: 700),
-        //                 autoPlayCurve: Curves.easeIn),
-        //             items: sliderList.map((item) {
-        //               return Builder(
-        //                 builder: (BuildContext context) {
-        //                   return Container(
-        //                       margin: EdgeInsets.symmetric(horizontal: 15),
-        //                       decoration: BoxDecoration(
-        //                         borderRadius: BorderRadius.circular(25),
-        //                         image: DecorationImage(
-        //                           image: NetworkImage(item.sliderImage),
-        //                           fit: BoxFit.cover,
-        //                         ),
-        //                       ));
-        //                 },
-        //               );
-        //             }).toList(),
-        //           ));
-        //     }
-        //   },
-        // ),
-
         Container(
             height: 140,
             margin: EdgeInsets.only(bottom: 30, left: 10, right: 10),
@@ -123,7 +85,6 @@ class _FoodPageBodyState extends State<FoodPageBody>
                 );
               }).toList(),
             )),
-
         Container(
           child: isLoadingRecommend
               ? Container(

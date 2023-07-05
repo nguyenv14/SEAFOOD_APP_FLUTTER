@@ -9,6 +9,7 @@ import 'package:seafoods/pages/home/food_page_body.dart';
 import 'package:seafoods/pages/home/home_page.dart';
 import 'package:seafoods/pages/loginandsignup/login/login.dart';
 import 'package:seafoods/pages/orders/order_page.dart';
+import 'package:seafoods/pages/search/search_page.dart';
 import 'package:seafoods/pages/user/user_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -63,7 +64,8 @@ class _MainPageState extends State<MainPage> {
         child: IndexedStack(index: _currentIndex, children: [
           HomePage(),
           OrdersPage(),
-          CartPage(),
+          // CartPage(),
+          SearchPage(),
           UserPage(),
         ]),
       ),
@@ -99,7 +101,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   title: Text("Orders")),
               SalomonBottomBarItem(
-                  icon: Icon(Icons.shopping_cart_rounded), title: Text("Cart")),
+                  icon: Icon(Icons.search_rounded), title: Text("Search")),
               SalomonBottomBarItem(
                   icon: Icon(Icons.person), title: Text("User")),
             ]),

@@ -69,9 +69,39 @@ class _ConfirmPageState extends State<ConfirmPage> {
             order: orderList[index],
             onTap: () {
               print("haha1");
-              _orderList.orderCancel(orderList[index].orderCode!);
-              CherryToast.success(title: Text("Đã hủy đơn hàng thành công"))
-                  .show(context);
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      title: Text("Thông báo"),
+                      content: Text(
+                          "Bạn muốn hủy đơn hàng này? Lưu ý bạn sẽ không mua đơn hàng này nữa!"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("No",
+                                style: TextStyle(color: Colors.black38))),
+                        TextButton(
+                            onPressed: () {
+                              _orderList
+                                  .orderCancel(orderList[index].orderCode!);
+                              Navigator.of(context).pop();
+                              CherryToast.success(
+                                      title: Text("Đã hủy đơn hàng thành công"))
+                                  .show(context);
+                            },
+                            child: Text(
+                              "Yes",
+                              style: TextStyle(color: Colors.redAccent),
+                            ))
+                      ],
+                    );
+                  });
+              // _orderList.orderCancel(orderList[index].orderCode!);
             },
           );
         },

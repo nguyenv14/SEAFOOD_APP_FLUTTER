@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seafoods/helpers/image_helper.dart';
 import 'package:seafoods/pages/home/main_page.dart';
+import 'package:seafoods/pages/loginandsignup/login/login.dart';
 import 'package:seafoods/widgets/item_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -89,7 +90,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MainPage()),
+                                  builder: (context) => LoginPage()),
                               (route) => false);
                         }
                       },

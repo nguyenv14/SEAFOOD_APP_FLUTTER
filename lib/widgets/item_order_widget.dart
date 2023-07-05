@@ -1,14 +1,12 @@
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:seafoods/Constant/colors.dart';
 import 'package:seafoods/Constant/dismesions.dart';
 import 'package:seafoods/Constant/style_text.dart';
-import 'package:seafoods/helpers/image_helper.dart';
+import 'package:seafoods/localStorage/user_save.dart';
 import 'package:seafoods/model/order.dart';
 import 'package:seafoods/model/order_detail.dart';
-import 'package:seafoods/widgets/app_column.dart';
-import 'package:seafoods/widgets/app_row.dart';
 import 'package:seafoods/widgets/dash_line.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -68,6 +66,25 @@ class _ItemOrderWidgetState extends State<ItemOrderWidget> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
+            children: [
+              Icon(
+                FontAwesomeIcons.mapLocation,
+                color: AppColor.signColor,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                width: 300,
+                child: Text(
+                  widget.order.shipping!.shippingAddress,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
@@ -109,12 +126,62 @@ class _ItemOrderWidgetState extends State<ItemOrderWidget> {
               )
             : widget.order.orderStatus == 4
                 ? Container(
-                    child: Center(
-                    child: Text(
-                      "Đơn hàng đã giao và đánh giá thành công",
-                      style: TextStyle(color: AppColor.mainColor),
-                    ),
-                  ))
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black45,
+                              offset: Offset(0, 0),
+                              blurRadius: 1),
+                        ],
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.person_pin,
+                                    color: AppColor.mainColor),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  CustomerDB.getCustomer()!.customer_name!,
+                                  style: AppText.textBold,
+                                )
+                              ],
+                            ),
+                            RatingStars(
+                              value: widget.order.comment!.commentRateStar!
+                                  .toDouble(),
+                              starColor: AppColor.mainColor,
+                              valueLabelVisibility: false,
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5.0, top: 10),
+                          child: Text(
+                            widget.order.comment!.commentTitle!,
+                            style: AppText.text,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5.0),
+                          child: Text(
+                            widget.order.comment!.commentContent!,
+                            style: AppText.textBold,
+                          ),
+                        ),
+                      ],
+                    ))
                 : GestureDetector(
                     onTap: widget.onTap,
                     child: Container(
@@ -139,7 +206,7 @@ class _ItemOrderWidgetState extends State<ItemOrderWidget> {
                                           .copyWith(color: Colors.white))
                                   : Text(""),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(30),
                           color: widget.order.orderStatus == 0
                               ? AppColor.textColor
                               : AppColor.iconColor2),

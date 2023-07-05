@@ -1,5 +1,5 @@
 class ApiUrls {
-  static String baseURI = "http://192.168.1.15/DoAnCNWeb/api/android";
+  static String baseURI = "http://192.168.1.34/DoAnCNWeb/api/android";
   final Uri API_PRODUCT_LIST_NEW = Uri.parse(baseURI + "/get-product");
   final Uri API_PRODUCT_LIST_TRENDING =
       Uri.parse(baseURI + "/get-trending-product");
@@ -21,4 +21,8 @@ class ApiUrls {
   final Uri API_ORDER_RECEIVE = Uri.parse(baseURI + "/order-receive");
   final Uri API_ORDER_EVALUATE_INSERT =
       Uri.parse(baseURI + "/insert-evaluate-order");
+
+  final Uri API_GET_PRICE_MIN_AND_MAX =
+      Uri.parse(baseURI + "/get-price-min-and-max");
+  final Uri API_PRODUCT_SEARCH = Uri.parse(baseURI + "/get-product-by-search");
 }

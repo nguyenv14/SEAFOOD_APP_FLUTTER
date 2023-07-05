@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:seafoods/Constant/colors.dart';
 import 'package:seafoods/Constant/style_text.dart';
+import 'package:seafoods/controller/cart_provider.dart';
 import 'package:seafoods/helpers/image_helper.dart';
 import 'package:seafoods/model/category.dart';
+import 'package:seafoods/pages/cart/cart_page.dart';
 import 'package:seafoods/pages/container/appbar_presenter.dart';
 import 'package:seafoods/pages/container/appbar_viewcontact.dart';
 import 'package:seafoods/widgets/app_button.dart';
@@ -62,6 +65,9 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
 
   @override
   Widget build(BuildContext context) {
+    // print("aaaa");
+    // final cartProvider = Provider.of<CartProvider>(context);
+    // cartProvider.countCarrt();
     return Scaffold(
       key: widget.scaffoldKey,
       backgroundColor: widget.isBackgroundTransperent!
@@ -144,17 +150,68 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
                         ),
                       ),
                       if (widget.implementCart)
-                        Container(
-                          padding: EdgeInsets.all(7),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: AppColor.mainColor,
-                          ),
-                          child: Icon(
-                            Icons.shopping_cart,
-                            color: Colors.white,
-                            size: 20,
-                          ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CartPage()));
+                          },
+                          child: Stack(children: [
+                            Container(
+                              padding: EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: AppColor.mainColor,
+                              ),
+                              child: Icon(
+                                Icons.shopping_cart,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                            // Consumer<CartProvider>(
+                            //   builder: (context, cartProvider, child) {
+                            //     return Padding(
+                            //       padding: EdgeInsets.only(left: 24, top: 20),
+                            //       child: Container(
+                            //         padding: EdgeInsets.symmetric(
+                            //             horizontal: 3, vertical: 1),
+                            //         decoration: BoxDecoration(
+                            //           borderRadius: BorderRadius.circular(8),
+                            //           color: Colors.redAccent,
+                            //         ),
+                            //         child: Text(
+                            //           cartProvider.count.toString(),
+                            //           style: AppText.text.copyWith(
+                            //               color: Colors.white, fontSize: 12),
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            Padding(
+                              padding: EdgeInsets.only(left: 24, top: 20),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 3, vertical: 1),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.redAccent,
+                                ),
+                                child: Consumer<CartProvider>(
+                                  builder: (context, cartProvider, child) {
+                                    return Text(
+                                      cartProvider.count.toString(),
+                                      style: AppText.text.copyWith(
+                                          color: Colors.white, fontSize: 12),
+                                    );
+                                  },
+                                  // child:
+                                ),
+                              ),
+                            ),
+                          ]),
                         ),
                     ],
                   ),

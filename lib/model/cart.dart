@@ -120,6 +120,10 @@ class CartModel {
   }
 
   static List<CartModel> getListCart(List<dynamic> dynamicList) {
+    // if (dynamicList) {
+    //   return [];
+    // }
+    print("hhhahaha");
     List<CartModel> list =
         dynamicList.map((e) => CartModel.fromJson(e)).toList();
     return list;
