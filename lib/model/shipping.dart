@@ -1,5 +1,5 @@
 class Shipping {
-  int shippingId;
+  int? shippingId;
   String shippingName;
   String shippingEmail;
   int shippingPhone;
@@ -7,11 +7,11 @@ class Shipping {
   String shippingNotes;
   int shippingSpecialRequirements;
   int shippingReceipt;
-  String createdAt;
-  String updatedAt;
+  String? createdAt;
+  String? updatedAt;
 
   Shipping({
-    required this.shippingId,
+    this.shippingId,
     required this.shippingName,
     required this.shippingEmail,
     required this.shippingPhone,
@@ -19,8 +19,8 @@ class Shipping {
     required this.shippingNotes,
     required this.shippingSpecialRequirements,
     required this.shippingReceipt,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Shipping.fromJson(Map<String, dynamic> json) {
@@ -36,5 +36,20 @@ class Shipping {
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'shipping_id': shippingId,
+      'shipping_name': shippingName,
+      'shipping_email': shippingEmail,
+      'shipping_phone': shippingPhone,
+      'shipping_address': shippingAddress,
+      'shipping_notes': shippingNotes,
+      'shipping_special_requirements': shippingSpecialRequirements,
+      'shipping_receipt': shippingReceipt,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
   }
 }

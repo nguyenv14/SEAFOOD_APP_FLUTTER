@@ -1,15 +1,15 @@
 import 'package:cherry_toast/cherry_toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:seafoods/Constant/colors.dart';
 import 'package:seafoods/Constant/style_text.dart';
 import 'package:seafoods/helpers/image_helper.dart';
 import 'package:seafoods/model/customer.dart';
+import 'package:seafoods/model/forgotpass.dart';
 import 'package:seafoods/pages/home/main_page.dart';
 import 'package:seafoods/pages/loginandsignup/login/login_page_presenter.dart';
 import 'package:seafoods/pages/loginandsignup/login/login_page_view_contact.dart';
-import 'package:seafoods/widgets/dash_line.dart';
+import 'package:seafoods/pages/user/change_password/pin_code_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,6 +21,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> implements LoginPageViewContact {
   TextEditingController textControllerMail = new TextEditingController();
   TextEditingController textControllerPass = new TextEditingController();
+  TextEditingController textControllerMailConfirm = new TextEditingController();
+
   late LoginPagePresenter loginPagePresenter;
   late Customer customer;
 
@@ -149,11 +151,87 @@ class _LoginPageState extends State<LoginPage> implements LoginPageViewContact {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 5,
+                    ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Nhập email xác nhận"),
+                                backgroundColor: Colors.white,
+                                elevation: 0,
+                                content: Container(
+                                  // margin: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(40),
+                                      border: Border.all(
+                                          color: AppColor.mainColor,
+                                          width: 0.9)),
+                                  child: TextField(
+                                    controller: textControllerMailConfirm,
+                                    autofocus: false,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 16),
+                                    decoration: InputDecoration(
+                                        hintText: "Enter the email",
+                                        focusColor: null,
+                                        border: InputBorder.none,
+                                        hintStyle: TextStyle(
+                                            color:
+                                                Colors.black.withOpacity(0.3)),
+                                        fillColor: null),
+                                    cursorColor: AppColor.mainColor,
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("No",
+                                          style: TextStyle(
+                                              color: Colors.black38))),
+                                  TextButton(
+                                      onPressed: () {
+                                        if (textControllerMailConfirm.text !=
+                                            '') {
+                                          loginPagePresenter.sendCode(
+                                              textControllerMailConfirm.text);
+                                        } else {
+                                          CherryToast.warning(
+                                                  title: Text(
+                                                      "Vui lòng điền vào trường!"))
+                                              .show(context);
+                                        }
+                                      },
+                                      child: Text(
+                                        "Yes",
+                                        style:
+                                            TextStyle(color: Colors.redAccent),
+                                      ))
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: Text(
+                          "Forgot password?",
+                          style: TextStyle(color: AppColor.mainColor),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     GestureDetector(
                       onTap: () {
-                        // print("hihi");
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -295,5 +373,21 @@ class _LoginPageState extends State<LoginPage> implements LoginPageViewContact {
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
     CherryToast.success(title: Text("Login Success")).show(context);
+  }
+
+  @override
+  void sendCodeError(String e) {
+    CherryToast.error(title: Text(e)).show(context);
+  }
+
+  @override
+  void sendCodeSuccess(ForgotPass forgotPass) {
+    Navigator.of(context).pop();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PinCodePage(
+                  forgotPass: forgotPass,
+                )));
   }
 }

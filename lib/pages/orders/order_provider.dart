@@ -1,12 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/connect.dart';
 import 'package:seafoods/api/api_link_util.dart';
-import 'package:seafoods/api/api_service.dart';
 import 'package:seafoods/model/order.dart';
 import 'package:http/http.dart' as http;
-import 'package:seafoods/model/order_detail.dart';
 
 class OrderProvider extends ChangeNotifier {
   List<Order> _orderList = [];
@@ -29,7 +26,6 @@ class OrderProvider extends ChangeNotifier {
         print("không lấy được");
       }
     } catch (e) {
-      print("catch");
       print(e);
     }
     notifyListeners();

@@ -1,10 +1,10 @@
 class Payment {
-  int paymentId;
+  int? paymentId;
   int paymentMethod;
   int paymentStatus;
 
   Payment({
-    required this.paymentId,
+    this.paymentId,
     required this.paymentMethod,
     required this.paymentStatus,
   });
@@ -15,5 +15,13 @@ class Payment {
       paymentMethod: json['payment_method'],
       paymentStatus: json['payment_status'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'payment_id': paymentId,
+      'payment_method': paymentMethod,
+      'payment_status': paymentStatus,
+    };
   }
 }

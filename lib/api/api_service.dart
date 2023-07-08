@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:seafoods/model/model.dart';
 
 class ApiClient {
-  static Future<Models> getListProdcut(Uri uri) async {
+  static Future<Models> getListProduct(Uri uri) async {
     try {
       var res = await http.get(uri);
       var response = jsonDecode(res.body);

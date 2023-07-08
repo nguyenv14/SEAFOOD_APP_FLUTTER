@@ -5,29 +5,6 @@ import 'package:seafoods/localStorage/user_save.dart';
 import 'package:seafoods/pages/orders/order_provider.dart';
 import 'package:seafoods/widgets/item_order_widget.dart';
 
-// class ConfirmPage extends StatefulWidget {
-//   const ConfirmPage({super.key});
-
-//   @override
-//   State<ConfirmPage> createState() => _ConfirmPageState();
-// }
-
-// class _ConfirmPageState extends State<ConfirmPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     print("haha");
-//     return Container(
-//       child: ListView.builder(
-//         padding: EdgeInsets.zero,
-//         itemCount: 4,
-//         itemBuilder: (context, index) {
-//           return new ItemOrderWidget();
-//         },
-//       ),
-//     );
-//   }
-// }
-
 class DeliveringPage extends StatefulWidget {
   const DeliveringPage({super.key});
 
@@ -59,7 +36,6 @@ class _DeliveringPageState extends State<DeliveringPage> {
   Widget build(BuildContext context) {
     final _orderList = Provider.of<OrderProvider>(context);
     final orderList = _orderList.orderList;
-    print("haha");
     return Container(
       child: ListView.builder(
         padding: EdgeInsets.zero,
@@ -101,7 +77,6 @@ class _DeliveringPageState extends State<DeliveringPage> {
                       ],
                     );
                   });
-              // print("haha1");
             },
           );
         },
@@ -109,26 +84,3 @@ class _DeliveringPageState extends State<DeliveringPage> {
     );
   }
 }
-
-// class ConfirmPage extends StatelessWidget {
-//   const ConfirmPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     bool isLoading = true;
-//     final _orderList = Provider.of<OrderProvider>(context);
-//     _orderList
-//         .fetchOrders(CustomerDB.getCustomer()!.customer_id, 0)
-//         .then((value) => isLoading = false);
-//     final orderList = _orderList.orderList;
-//     return Container(
-//       child: ListView.builder(
-//         padding: EdgeInsets.zero,
-//         itemCount: orderList.length,
-//         itemBuilder: (context, index) {
-//           return new ItemOrderWidget();
-//         },
-//       ),
-//     );
-//   }
-// }

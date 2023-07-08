@@ -27,9 +27,7 @@ class SearchPresenter {
     try {
       var resBody =
           await ApiClient.getListObject(ApiUrls().API_GET_PRICE_MIN_AND_MAX);
-      print("1");
       if (resBody.status_code == 200) {
-        print("2");
         List<dynamic> source = resBody.data!;
         _searchViewContact!.getPriceMinAndMaxSuccess(Product.getList(source));
       } else {
@@ -52,16 +50,13 @@ class SearchPresenter {
     try {
       var resBody =
           await ApiClient.getModels(ApiUrls().API_PRODUCT_SEARCH, body);
-      print(resBody.data.toString());
       if (resBody.status_code == 200) {
-        print("2");
         List<dynamic> source = resBody.data!;
         _searchViewContact!.getProductSearchSuccess(Product.getList(source));
       } else {
         _searchViewContact!.getProductSearchError(null);
       }
     } catch (e) {
-      print("Lỗi");
       _searchViewContact!.getProductSearchError(e);
     }
   }

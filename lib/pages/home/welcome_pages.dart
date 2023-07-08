@@ -25,7 +25,6 @@ class _WelcomePageState extends State<WelcomePage> {
       setState(() {
         _currentPage = _pageController.page!.toInt();
       });
-      // print(_currentPage);
     });
   }
 
@@ -78,10 +77,6 @@ class _WelcomePageState extends State<WelcomePage> {
                     child: ItemButtonWidget(
                       data: _currentPage == 2 ? "Get started" : "Next",
                       onTap: () {
-                        // setState(() {
-                        //   _currentPage++;
-                        // });
-                        print(_currentPage);
                         if (_currentPage != 2) {
                           _pageController.nextPage(
                               duration: Duration(milliseconds: 500),

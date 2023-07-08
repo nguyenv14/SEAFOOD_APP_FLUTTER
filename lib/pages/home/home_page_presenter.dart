@@ -16,9 +16,7 @@ class HomePagePresenter {
     try {
       var resBody =
           await ApiClient.getListObject(ApiUrls().API_PRODUCT_LIST_TRENDING);
-      print("1");
       if (resBody.status_code == 200) {
-        print("2");
         List<dynamic> source = resBody.data!;
         _homePageViewContact!
             .loadProductPopularSuccess(Product.getList(source));
@@ -33,7 +31,6 @@ class HomePagePresenter {
 
   Future<void> loadProductRecommend() async {
     try {
-      print("1");
       var resBody =
           await ApiClient.getListObject(ApiUrls().API_PRODUCT_LIST_NEW);
       if (resBody.status_code == 200) {
@@ -44,7 +41,6 @@ class HomePagePresenter {
         _homePageViewContact!.loadProductRecommentError();
       }
     } catch (e) {
-      // print(1.toString());
       print("RecommendProduct" + e.toString());
       _homePageViewContact!.loadProductRecommentError();
     }
@@ -53,7 +49,6 @@ class HomePagePresenter {
   Future<void> loadSliderList() async {
     if (connect) {
       try {
-        print("12");
         connect = false;
         var resBody = await ApiClient.getListObject(ApiUrls().API_SLIDER_LIST);
         if (resBody.status_code == 200) {

@@ -1,10 +1,12 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:seafoods/Constant/colors.dart';
 import 'package:seafoods/Constant/dismesions.dart';
 import 'package:seafoods/Constant/style_text.dart';
 import 'package:seafoods/model/category.dart';
 import 'package:seafoods/model/product.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:seafoods/pages/container/app_bar_widget.dart';
 import 'package:seafoods/pages/search/search_presenter.dart';
 import 'package:seafoods/pages/search/search_viewcontact.dart';
@@ -31,14 +33,14 @@ class _SearchPageState extends State<SearchPage> implements SearchViewContact {
   double priceMin = 0;
   double priceMax = 100;
   List<Product>? productList;
-  // stt.SpeechToText? _speechToText;
+  stt.SpeechToText? _speechToText;
   late SearchPresenter _searchPresenter;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // _speechToText = stt.SpeechToText();
+    _speechToText = stt.SpeechToText();
     _searchPresenter = SearchPresenter(this);
     _searchPresenter.getCategoryList();
     _searchPresenter.getPriceMinAndMax();
@@ -74,9 +76,6 @@ class _SearchPageState extends State<SearchPage> implements SearchViewContact {
                       convertFilterToInt(_textFilterController.text),
                       (startValue * 1000).toInt(),
                       (endValue * 1000).toInt());
-                  // print(value);
-                  // print(_currentRange);
-                  // print(_textFilterController.);
                 },
                 style: TextStyle(color: Colors.black, fontSize: 16),
                 decoration: InputDecoration(
@@ -86,7 +85,39 @@ class _SearchPageState extends State<SearchPage> implements SearchViewContact {
                     prefixIcon: Icon(Icons.search),
                     prefixIconColor: AppColor.iconColor1,
                     suffixIcon: GestureDetector(
-                      onTap: _listen,
+                      onTapDown: (details) async {
+                        if (!isListening) {
+                          print("hihi");
+                          var available = await _speechToText!.initialize();
+                          if (available) {
+                            setState(() {
+                              isListening = true;
+                              _speechToText!.listen(
+                                onResult: (result) {
+                                  print(result.recognizedWords);
+                                  _textController.text = result.recognizedWords;
+                                  _searchPresenter.getFilterProduct(
+                                      result.recognizedWords,
+                                      _textCategoryController.text == "Tất cả"
+                                          ? ""
+                                          : _textCategoryController.text,
+                                      convertFilterToInt(
+                                          _textFilterController.text),
+                                      (startValue * 1000).toInt(),
+                                      (endValue * 1000).toInt());
+                                },
+                              );
+                            });
+                          }
+                        }
+                      },
+                      onTapUp: (details) {
+                        setState(() {
+                          print("huhi");
+                          isListening = false;
+                        });
+                        _speechToText!.stop();
+                      },
                       child: Container(
                           width: 20,
                           height: 20,
@@ -114,7 +145,6 @@ class _SearchPageState extends State<SearchPage> implements SearchViewContact {
                         width: 170,
                         child: CustomDropdown(
                             onChanged: (p0) {
-                              // print(p0);
                               _searchPresenter.getFilterProduct(
                                   _textController.text,
                                   p0 == "Tất cả" ? "" : p0,
@@ -202,12 +232,7 @@ class _SearchPageState extends State<SearchPage> implements SearchViewContact {
                           return itemProductBuild(productList![index]);
                         }),
                   )
-                : Center(
-                    child: Text(
-                      "Không có sản phẩm này!",
-                      style: TextStyle(color: AppColor.mainColor, fontSize: 16),
-                    ),
-                  )
+                : Lottie.asset("assets/raw/search.json")
           ]),
         ));
   }
@@ -364,7 +389,6 @@ class _SearchPageState extends State<SearchPage> implements SearchViewContact {
       this.productList = [];
       isProductList = false;
     });
-    print("!!!");
     print(object);
   }
 
@@ -377,30 +401,21 @@ class _SearchPageState extends State<SearchPage> implements SearchViewContact {
   }
 
   void _listen() async {
-    // if (!isListening) {
-    //   bool available = await _speechToText!.initialize(
-    //     onStatus: (status) => print("On status: " + status),
-    //     onError: (errorNotification) =>
-    //         print("onError: " + errorNotification.errorMsg),
-    //   );
-    //   if (available) {
-    //     setState(() {
-    //       isListening = true;
-    //     });
-    //     _speechToText!.listen(
-    //       onResult: (result) {
-    //         setState(() {
-    //           print(result.recognizedWords);
-    //         });
-    //         if (result.hasConfidenceRating && result.confidence > 0) {}
-    //       },
-    //     );
-    //   }
-    // } else {
-    //   setState(() {
-    //     isListening = false;
-    //     _speechToText!.stop();
-    //   });
-    // }
+    if (!isListening) {
+      var available = await _speechToText!.initialize();
+      if (available) {
+        setState(() {
+          isListening = true;
+        });
+        _speechToText!.listen(
+          onResult: (result) {
+            setState(() {
+              print(result.recognizedWords);
+            });
+            if (result.hasConfidenceRating && result.confidence > 0) {}
+          },
+        );
+      }
+    } else {}
   }
 }

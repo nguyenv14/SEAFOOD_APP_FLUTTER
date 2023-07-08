@@ -5,29 +5,6 @@ import 'package:seafoods/pages/evaluate/evaluate_page.dart';
 import 'package:seafoods/pages/orders/order_provider.dart';
 import 'package:seafoods/widgets/item_order_widget.dart';
 
-// class ConfirmPage extends StatefulWidget {
-//   const ConfirmPage({super.key});
-
-//   @override
-//   State<ConfirmPage> createState() => _ConfirmPageState();
-// }
-
-// class _ConfirmPageState extends State<ConfirmPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     print("haha");
-//     return Container(
-//       child: ListView.builder(
-//         padding: EdgeInsets.zero,
-//         itemCount: 4,
-//         itemBuilder: (context, index) {
-//           return new ItemOrderWidget();
-//         },
-//       ),
-//     );
-//   }
-// }
-
 class DeliveriedPage extends StatefulWidget {
   const DeliveriedPage({super.key});
 
@@ -59,7 +36,6 @@ class _DeliveriedPageState extends State<DeliveriedPage> {
   Widget build(BuildContext context) {
     final _orderList = Provider.of<OrderProvider>(context);
     final orderList = _orderList.orderList;
-    print("haha");
     return Container(
       child: ListView.builder(
         padding: EdgeInsets.zero,
@@ -68,7 +44,6 @@ class _DeliveriedPageState extends State<DeliveriedPage> {
           return new ItemOrderWidget(
             order: orderList[index],
             onTap: () {
-              // print("Giao hàng");
               Navigator.push(
                   context,
                   MaterialPageRoute(

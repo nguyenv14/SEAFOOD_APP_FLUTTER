@@ -23,8 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // print("haha1");
-
     return AppBarContainerWidget(
       implementBack: false,
       implementCart: true,

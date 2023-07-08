@@ -65,9 +65,6 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
 
   @override
   Widget build(BuildContext context) {
-    // print("aaaa");
-    // final cartProvider = Provider.of<CartProvider>(context);
-    // cartProvider.countCarrt();
     return Scaffold(
       key: widget.scaffoldKey,
       backgroundColor: widget.isBackgroundTransperent!
@@ -115,10 +112,6 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
                       if (!widget.implementBack)
                         GestureDetector(
                           onTap: () {
-                            // print("haha1");
-                            // setState(() {
-                            //   isDrawerOpen = !isDrawerOpen;
-                            // });
                             widget.scaffoldKey!.currentState?.openDrawer();
                           },
                           child: Container(
@@ -207,7 +200,6 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
                                           color: Colors.white, fontSize: 12),
                                     );
                                   },
-                                  // child:
                                 ),
                               ),
                             ),
@@ -364,7 +356,5 @@ class _AppBarContainerWidgetState extends State<AppBarContainerWidget>
       isCategoryList = true;
       categoryList = list;
     });
-    // print("2");
-    // print(categoryList.toString());
   }
 }

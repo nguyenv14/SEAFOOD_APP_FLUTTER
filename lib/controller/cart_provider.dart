@@ -68,6 +68,15 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeAll() {
+    _cartList = [];
+    List<dynamic> newDynamic = CartModel.getListDynamic(_cartList);
+    box.write(Dimesions.CART, newDynamic);
+    _count = _cartList.length;
+    _total_price = 0;
+    notifyListeners();
+  }
+
   double calculateTotalQuantity(List<CartModel> cartList) {
     double totalPrice = 0;
     for (var cart in cartList) {

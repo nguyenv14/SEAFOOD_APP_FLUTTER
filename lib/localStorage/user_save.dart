@@ -5,12 +5,14 @@ import 'package:seafoods/model/customer.dart';
 class CustomerDB {
   static void saveCustomer(Customer customer) {
     final box = GetStorage();
-    box.write(Dimesions.CUSTOMER, customer);
+    dynamic source = customer.toJson();
+    box.write(Dimesions.CUSTOMER, source);
   }
 
   static Customer? getCustomer() {
     final box = GetStorage();
-    Customer? customer = Customer.fromJson(box.read(Dimesions.CUSTOMER));
+    Customer? customer =
+        Customer.fromJson(box.read(Dimesions.CUSTOMER) ?? null!);
     return customer;
   }
 

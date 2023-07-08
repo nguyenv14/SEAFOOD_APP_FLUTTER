@@ -58,7 +58,6 @@ class _CancelPageState extends State<CancelPage> {
   Widget build(BuildContext context) {
     final _orderList = Provider.of<OrderProvider>(context);
     final orderList = _orderList.orderList;
-    print("haha");
     return Container(
       child: ListView.builder(
         padding: EdgeInsets.zero,
@@ -66,9 +65,7 @@ class _CancelPageState extends State<CancelPage> {
         itemBuilder: (context, index) {
           return new ItemOrderWidget(
             order: orderList[index],
-            onTap: () {
-              print("haha1");
-            },
+            onTap: () {},
           );
         },
       ),

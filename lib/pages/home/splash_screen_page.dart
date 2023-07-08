@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void setFirstApp() async {
     sharedPreferences = await SharedPreferences.getInstance();
     bool isFirst = sharedPreferences.getBool("FirstApp") ?? false;
-    print(isFirst);
+    // print(isFirst);
     if (isFirst == true) {
       await Future.delayed(const Duration(seconds: 2));
       Customer? customer = CustomerDB.getNameCustomer();
@@ -30,13 +30,13 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => MainPage()),
-          (route) => true,
+          (route) => false,
         );
       } else {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginPage()),
-          (route) => true,
+          (route) => false,
         );
       }
     } else {

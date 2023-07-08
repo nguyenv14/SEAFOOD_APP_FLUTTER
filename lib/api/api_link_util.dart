@@ -25,4 +25,8 @@ class ApiUrls {
   final Uri API_GET_PRICE_MIN_AND_MAX =
       Uri.parse(baseURI + "/get-price-min-and-max");
   final Uri API_PRODUCT_SEARCH = Uri.parse(baseURI + "/get-product-by-search");
+  final Uri API_SEND_CODE = Uri.parse(baseURI + "/send-code-change-pass");
+  final Uri API_CHANGE_PASS = Uri.parse(baseURI + "/change-user-pass");
+  final Uri API_CHECK_COUPON = Uri.parse(baseURI + "/check-coupon-first");
+  final Uri API_CHECKOUT = Uri.parse(baseURI + "/put-order");
 }

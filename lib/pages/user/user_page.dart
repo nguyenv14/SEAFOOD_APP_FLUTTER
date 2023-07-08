@@ -6,6 +6,7 @@ import 'package:seafoods/localStorage/user_save.dart';
 import 'package:seafoods/model/customer.dart';
 import 'package:seafoods/pages/container/app_bar_widget.dart';
 import 'package:seafoods/pages/loginandsignup/login/login.dart';
+import 'package:seafoods/pages/user/change_password/change_password_page.dart';
 import 'package:seafoods/pages/user/user_page_presenter.dart';
 import 'package:seafoods/pages/user/user_page_view_contact.dart';
 
@@ -57,16 +58,6 @@ class _UserPageState extends State<UserPage> implements UserPageViewContact {
           ),
           ItemProfileWidget(
               Icons.person, AppColor.mainColor, customer.customer_name!),
-          SizedBox(
-            height: 20,
-          ),
-          ItemProfileWidget(Icons.phone, AppColor.yellowColor,
-              "0" + customer.customer_phone.toString()),
-          SizedBox(
-            height: 20,
-          ),
-          ItemProfileWidget(
-              Icons.mail, AppColor.iconColor2, customer.customer_email!),
           SizedBox(
             height: 20,
           ),

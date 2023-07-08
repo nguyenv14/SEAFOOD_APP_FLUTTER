@@ -401,9 +401,6 @@ class _PopularFoodDetailState extends State<PopularFoodDetail> {
                                         cartModel.product_price_total =
                                             widget.product.productPrice! *
                                                 countProduct;
-                                        // print(GetStorage()
-                                        //     .read(Dimesions.CART)
-                                        //     .toString());
                                         int result = cartProvider
                                             .addProductToCart(cartModel);
                                         // cartProvider.countCarrt();
